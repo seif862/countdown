@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العداد التنازلي</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+        
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 50px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        .display-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .display-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .display-label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 400;
+        }
+        
+        .display-number {
+            font-size: 120px;
+            font-weight: 900;
+            text-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            line-height: 1;
+        }
+        
+        .info-section {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-section h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .info-section p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+        
+        .edit-note {
+            background: #fff3cd;
+            border-right: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .edit-note strong {
+            color: #856404;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .edit-note p {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .code-snippet {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-top: 10px;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 30px;
+            }
+            
+            .display-number {
+                font-size: 80px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">⏰</div>
+            <h1>العداد التنازلي</h1>
+            <p class="subtitle">تتبع الوقت المتبقي</p>
+        </div>
+        
+        <div class="display-card">
+            <div class="display-label">الأيام المتبقية</div>
+            <div class="display-number" id="countdownNumber">10</div>
+        </div>
+        
+        <div class="info-section">
+            <h3>📌 معلومات</h3>
+            <p>هذا العداد يعرض عدد الأيام المتبقية. يمكنك تحديث الرقم بسهولة من خلال تعديل الكود على GitHub.</p>
+        </div>
+        
+        <div class="edit-note">
+            <strong>💡 كيفية التعديل:</strong>
+            <p>لتغيير الرقم، افتح ملف <code>index.html</code> على GitHub وابحث عن السطر:</p>
+            <div class="code-snippet">&lt;div class="display-number" id="countdownNumber"&gt;10&lt;/div&gt;</div>
+            <p style="margin-top: 10px;">غير الرقم <strong>10</strong> إلى الرقم المطلوب واحفظ الملف.</p>
+        </div>
+        
+        <div class="footer">
+            <p>🌟 صُمم بحب وعناية</p>
+        </div>
+    </div>
+    
+    <script>
+        // يمكنك إضافة وظائف JavaScript هنا مستقبلاً
+        document.addEventListener('DOMContentLoaded', function() {
+            const numberElement = document.getElementById('countdownNumber');
+            numberElement.style.animation = 'fadeIn 1s ease-out';
+        });
+    </script>
+</body>
+</html>
